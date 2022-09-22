@@ -4,46 +4,40 @@ import java.util.ArrayList;
 
 public class EratosthenesPrimeSieve implements PrimeSieve{
 
-    private boolean[] primes;
+    private ArrayList<Integer> list;
     int obergrenze;
 
 
     public EratosthenesPrimeSieve(int obergrenze) {
-        this.primes = new boolean[obergrenze];
         this.obergrenze = obergrenze;
+        this.list = new ArrayList<>();
+
+        for (int i = 2; i <= obergrenze; i++) {
+            list.add(i);
+        }
     }
 
     @Override
     public boolean isPrime(int p) {
 
-        int size = primes.length;
-        int ersteZahl = 0;
-        for (int j = 2; j < size; j++) {
-
-            for (int i = 2; i < size; i++) {
-                if (i != j && i % j == 0) {
-                    primes[i] = true;
-                    size = primes.length;
+        int size = list.size();
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                if(list.get(j) % list.get(i) == 0 && list.get(j) != list.get(i)){
+                    list.remove(j);
+                    size = list.size();
                 }
             }
-
         }
 
-        ArrayList<Integer> temp = new ArrayList<>();
-        for (int i = 0; i < primes.length; i++) {
-            if(!primes[i]){
-                temp.add(i);
-            }
-        }
-
-        return temp.contains(p);
+        return list.contains(p);
     }
 
     @Override
     public void printPrimes() {
 
-        for (int i = 0; i < primes.length; i++) {
-            System.out.println(primes[i]);
+        for (int i = 0; i < list.size(); i++) {
+            System.out.println(list.get(i));
         }
 
     }
